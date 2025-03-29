@@ -1,3 +1,23 @@
+// Load and display thread preview when popup opens
+(async function initPreview() {
+  const [tab] = await chrome.tabs.query({active: true, currentWindow: true});
+  
+  // First inject content.js
+  await chrome.scripting.executeScript({
+    target: {tabId: tab.id},
+    files: ['content.js']
+  });
+  
+  // Then send message to get formatted content
+  const response = await chrome.tabs.sendMessage(tab.id, {
+    action: 'export',
+    format: 'pdf'
+  });
+  
+  // Display HTML preview
+  document.getElementById('preview-content').innerHTML = response.content;
+})();
+
 document.getElementById('export-pdf').addEventListener('click', async () => {
   const [tab] = await chrome.tabs.query({active: true, currentWindow: true});
   
