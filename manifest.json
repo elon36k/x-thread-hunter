@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Twitter Thread Exporter",
+  "name": "X Thread Hunter",
   "version": "1.0",
-  "description": "Export Twitter threads as PDF or Markdown",
+  "description": "Copy or Export X threads as Markdown",
   "permissions": ["activeTab", "scripting", "downloads"],
   "action": {
     "default_popup": "popup.html",

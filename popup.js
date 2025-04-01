@@ -25,7 +25,7 @@ function showNotification(message) {
   });
   
   // Display HTML preview
-  document.getElementById('preview-content').innerHTML = response.content;
+  document.getElementById('preview-content').innerHTML = response.content??"";
 })();
 
 // document.getElementById('export-pdf').addEventListener('click', async () => {
@@ -104,9 +104,10 @@ document.getElementById('export-md').addEventListener('click', async () => {
   // Create and download Markdown
   const blob = new Blob([response.content], {type: 'text/markdown'});
   const url = URL.createObjectURL(blob);
+
   chrome.downloads.download({
     url: url,
-    filename: 'twitter-thread.md',
+    filename: 'x-thread.md',
     saveAs: true
   });
 });

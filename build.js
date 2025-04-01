@@ -4,6 +4,7 @@ const webpack = require('webpack');
 const archiver = require('archiver');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
 
 // Webpack配置
 const webpackConfig = {
@@ -11,10 +12,9 @@ const webpackConfig = {
   entry: {
     content: './content.js',
     popup: './popup.js',
-    styles: './styles.css'
   },
   output: {
-    filename: '[name].min.js',
+    filename: '[name].js',
     path: path.resolve(__dirname, 'dist')
   },
   module: {
@@ -31,7 +31,7 @@ const webpackConfig = {
   plugins: [
     new webpack.optimize.ModuleConcatenationPlugin(),
     new MiniCssExtractPlugin({
-      filename: '[name].min.css'
+      filename: '[name].css'
     })
   ],
   optimization: {
@@ -79,12 +79,12 @@ webpack(webpackConfig, (err, stats) => {
       } else {
         if (file === 'popup.html') {
           let htmlContent = fs.readFileSync(srcPath, 'utf8');
-          htmlContent = htmlContent.replace('popup.js', 'popup.min.js');
-          htmlContent = htmlContent.replace('styles.css', 'styles.min.css');
+          // htmlContent = htmlContent.replace('popup.js', 'popup.min.js');
+          // htmlContent = htmlContent.replace('styles.css', 'styles.min.css');
           fs.writeFileSync(destPath, htmlContent);
         } else if (file === 'manifest.json') {
           let manifestContent = fs.readFileSync(srcPath, 'utf8');
-          manifestContent = manifestContent.replace('content.js', 'content.min.js');
+          // manifestContent = manifestContent.replace('content.js', 'content.min.js');
           fs.writeFileSync(destPath, manifestContent);
         } else {
           fs.copyFileSync(srcPath, destPath);
@@ -94,20 +94,20 @@ webpack(webpackConfig, (err, stats) => {
   });
   
 //   // 创建zip压缩包
-//   const output = fs.createWriteStream('twitter-thread-exporter.zip');
-//   const archive = archiver('zip', { zlib: { level: 9 } });
+   const output = fs.createWriteStream('twitter-thread-exporter.zip');
+   const archive = archiver('zip', { zlib: { level: 9 } });
   
-//   output.on('close', () => {
-//     console.log(`压缩包创建完成，大小: ${archive.pointer()} bytes`);
-//   });
+   output.on('close', () => {
+     console.log(`压缩包创建完成，大小: ${archive.pointer()} bytes`);
+   });
   
-//   archive.on('error', (err) => {
-//     throw err;
-//   });
+   archive.on('error', (err) => {
+     throw err;
+   });
   
-//   archive.pipe(output);
-//   archive.directory('dist/', false);
-//   archive.finalize();
+   archive.pipe(output);
+   archive.directory('dist/', false);
+   archive.finalize();
 });
 
 // 递归复制文件夹
