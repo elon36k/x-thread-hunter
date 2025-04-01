@@ -1,0 +1,7 @@
+node_modules
+*.log
+*-lock.json
+*.lock
+*.lockfile
+*.lockfile.json
+*.zip
