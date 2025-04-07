@@ -6,3 +6,4 @@ node_modules
 *.lockfile.json
 *.zip
 dist
+截图.png
